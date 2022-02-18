@@ -21,8 +21,9 @@ build:
 
 requirements:
   build:
+    - python
     - m2-patch  # [win]
-    - patch  # [not win]
+    - patch     # [not win]
 
 
 outputs:
