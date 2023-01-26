@@ -15,7 +15,7 @@ source:
 
 build:
   number: {{ build_number }}
-  skip: True  # [py<37 or py>310]
+  skip: True  # [py<37]
   skip: True  # [s390x]  Missing dependencies.
   skip: True  # [win32]  Missing dependencies in win32 arch and not expecting they will be updated.
 
