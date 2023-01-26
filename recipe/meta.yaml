@@ -58,7 +58,8 @@ outputs:
       requires:
         - pip
         - {{ pin_subpackage('basemap-data') }}
-        - python
+        - python <3.11  # [py<311]
+        - python        # [py>=311]
       commands:
         - pip check
         - python -c "from mpl_toolkits.basemap import Basemap"
@@ -88,6 +89,11 @@ outputs:
         - wheel
       run:
         - python
+    test:
+      requires:
+        - python <3.11  # [py<311]
+        - python        # [py>=311]
+
     about:
       home: https://matplotlib.org/basemap
       license: LGPL-3.0-or-later
@@ -111,6 +117,10 @@ outputs:
       run:
         - {{ pin_subpackage('basemap-data') }}
         - python
+    test:
+      requires:
+        - python <3.11  # [py<311]
+        - python        # [py>=311]
     about:
       home: https://matplotlib.org/basemap
       license: LGPL-3.0-or-later
