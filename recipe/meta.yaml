@@ -25,7 +25,6 @@ requirements:
     - patch     # [not win]
 
 outputs:
-
   - name: basemap
     script: build-basemap.sh  # [not win]  This script will delete `pyproject.toml`. Remove ASAP.
     script: bld-basemap.bat   # [win]
@@ -37,8 +36,8 @@ outputs:
         - python
         - pip
         - cython >=0.29,<3.1
-        - numpy 1.21  # [not ppc64le]
-        - numpy 1.19  # [ppc64le]
+        - numpy 1.21  # [not ppc64le or py>=310]
+        - numpy 1.19  # [ppc64le and py<310]
         - geos
         - pyproj
         - setuptools
