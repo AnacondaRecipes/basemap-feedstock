@@ -40,7 +40,8 @@ outputs:
         - numpy 1.19  # [ppc64le and py<310]
         - geos
         - pyproj
-        - setuptools
+        - setuptools <61  # [win]
+        - setuptools      # [not win]
         - wheel
       run:
         - {{ pin_subpackage('basemap-data') }}
@@ -81,7 +82,8 @@ outputs:
       host:
         - python
         - pip
-        - setuptools
+        - setuptools <61  # [win]
+        - setuptools  # [not win]
         - wheel
       run:
         - python
@@ -102,7 +104,8 @@ outputs:
       host:
         - python
         - pip
-        - setuptools
+        - setuptools <61  # [win]
+        - setuptools  # [not win]
         - wheel
       run:
         - {{ pin_subpackage('basemap-data') }}
