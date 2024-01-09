@@ -10,15 +10,15 @@ case $PKG_NAME in
 
     basemap)
         rm -f packages/basemap/pyproject.toml
-        $PYTHON -m pip install packages/basemap --no-deps --ignore-installed -vvv
+        $PYTHON -m pip install packages/basemap --no-deps --no-build-isolation -vv
         ;;
 
     basemap-data)
-        $PYTHON -m pip install packages/basemap_data --no-deps --ignore-installed -vvv
+        $PYTHON -m pip install packages/basemap_data --no-deps --no-build-isolation -vv
         ;;
 
     basemap-data-hires)
-        $PYTHON -m pip install packages/basemap_data_hires --no-deps --ignore-installed -vvv
+        $PYTHON -m pip install packages/basemap_data_hires --no-deps --no-build-isolation -vv
         ;;
 
     *)

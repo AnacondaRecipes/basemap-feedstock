@@ -1,5 +1,10 @@
-{% set version = "1.3.6" %}
-{% set build_number = "1" %}
+{% set version = "1.4.0" %}
+{% set build_number = "0" %}
+
+# note:
+# In truth, basemap-data and basemap-data-hiredis do not follow the same version as basemap.
+# These packages should remain at 1.3.2. However we already have a 1.3.6 version published.
+# So we'll keep the versions aligned.
 
 package:
   name: basemap-split
@@ -7,17 +12,14 @@ package:
 
 source:
   url: https://github.com/matplotlib/basemap/archive/v{{ version }}.tar.gz
-  sha256: 42adbd039b4afbe93ca2fa32cfab456d4fd590cb8ed1c28e4aa94dcb957b58ac
+  sha256: a5cec3035825608802d672e6ccf7d85fd26db6994ca7c9cf5824121d5c923a4f
   patches:
     # Update messages regarding installation of `basemap-data-hires`.
     - install_hires_instructions.patch
-    - install_numpy_override.patch         # <--- This is a horible hack. Remove ASAP.
 
 build:
   number: {{ build_number }}
-  skip: True  # [py<37]
   skip: True  # [s390x]  Missing dependencies.
-  skip: True  # [win32]  Missing dependencies in win32 arch and not expecting they will be updated.
 
 requirements:
   build:
@@ -26,40 +28,33 @@ requirements:
 
 outputs:
   - name: basemap
-    script: build-basemap.sh  # [not win]  This script will delete `pyproject.toml`. Remove ASAP.
+    script: build-basemap.sh  # [not win]
     script: bld-basemap.bat   # [win]
     requirements:
       build:
         - {{ compiler('c') }}
-        - {{ compiler('cxx') }}
       host:
         - python
         - pip
-        - cython >=0.29,<3.1
-        - numpy 1.21  # [(py<310 and not ppc64le) or py==310]
-        - numpy 1.22  # [py>=311]
-        - numpy 1.19  # [ppc64le and py<310]
-        - geos
-        - pyproj
-        - setuptools <61  # [win]
-        - setuptools      # [not win]
+        - setuptools
         - wheel
+        - cython >=0.29,<3.1
+        - numpy {{ numpy }}
+        - geos 3.9.1
       run:
-        - {{ pin_subpackage('basemap-data') }}
+        - {{ pin_subpackage('basemap-data', min_pin='x.x.x', max_pin='x.x', exact=False) }}
         - python
-        - {{ pin_compatible('numpy') }}
+        - {{ pin_compatible('numpy', upper_bound='1.27') }}
         - {{ pin_compatible('geos') }}
-        - matplotlib-base >=1.5,!=3.0.1,<3.7
-        - pyproj >=1.9.3,<3.5.0
+        - matplotlib-base >=1.5,<3.9
+        - pyproj >=1.9.3,<3.7.0
         - pyshp >=1.2.0,<2.4
+        - packaging >=16.0,<24.0
     test:
       imports:
         - mpl_toolkits.basemap
       requires:
         - pip
-        - {{ pin_subpackage('basemap-data') }}
-        - python <3.11  # [py<311]
-        - python        # [py>=311]
       commands:
         - pip check
         - python -c "from mpl_toolkits.basemap import Basemap"
@@ -75,7 +70,6 @@ outputs:
         It is similar in functionality to the matlab mapping toolbox, the IDL mapping facilities, GrADS, or the Generic Mapping Tools.
       dev_url: https://github.com/matplotlib/basemap
       doc_url: https://matplotlib.org/basemap/
-      doc_source_url: https://github.com/matplotlib/basemap/blob/v{{ version }}/packages/basemap/doc/index.rst
 
   - name: basemap-data
     script: build-basemap.sh  # [not win]
@@ -84,15 +78,15 @@ outputs:
       host:
         - python
         - pip
-        - setuptools <61  # [win]
-        - setuptools  # [not win]
+        - setuptools
         - wheel
       run:
         - python
     test:
       requires:
-        - python <3.11  # [py<311]
-        - python        # [py>=311]
+        - pip
+      commands:
+        - pip check
 
     about:
       home: https://matplotlib.org/basemap
@@ -102,7 +96,6 @@ outputs:
       summary: Plot on map projections (with coastlines and political boundaries) using matplotlib.
       dev_url: https://github.com/matplotlib/basemap
       doc_url: https://matplotlib.org/basemap/
-      doc_source_url: https://github.com/matplotlib/basemap/blob/v{{ version }}/packages/basemap/doc/index.rst
 
   - name: basemap-data-hires
     script: build-basemap.sh  # [not win]
@@ -111,16 +104,16 @@ outputs:
       host:
         - python
         - pip
-        - setuptools <61  # [win]
-        - setuptools  # [not win]
+        - setuptools
         - wheel
       run:
-        - {{ pin_subpackage('basemap-data') }}
+        - {{ pin_subpackage('basemap-data', min_pin='x.x.x', max_pin='x.x', exact=False) }}
         - python
     test:
       requires:
-        - python <3.11  # [py<311]
-        - python        # [py>=311]
+        - pip
+      commands:
+        - pip check
     about:
       home: https://matplotlib.org/basemap
       license: LGPL-3.0-or-later
