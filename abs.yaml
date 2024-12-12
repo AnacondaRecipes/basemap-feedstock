@@ -1,1 +1,5 @@
-aggregate_branch: 3.12
+channels:
+  - https://staging.continuum.io/prefect/fs/geos-feedstock/pr11/a76656f
+
+build_env_vars:
+  ANACONDA_ROCKET_ENABLE_PY313 : yes
