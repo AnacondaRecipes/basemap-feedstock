@@ -1,4 +1,4 @@
-{% set version = "1.4.0" %}
+{% set version = "1.4.1" %}
 {% set build_number = "0" %}
 
 # note:
@@ -12,10 +12,10 @@ package:
 
 source:
   url: https://github.com/matplotlib/basemap/archive/v{{ version }}.tar.gz
-  sha256: a5cec3035825608802d672e6ccf7d85fd26db6994ca7c9cf5824121d5c923a4f
+  sha256: 730b1e2ff5eb31c73680bd8ebabc6b11adfc587cfa6832c528a8a82822e5a490
   patches:
     # Update messages regarding installation of `basemap-data-hires`.
-    - install_hires_instructions.patch
+    - patches/install_hires_instructions.patch
 
 build:
   number: {{ build_number }}
@@ -40,7 +40,7 @@ outputs:
         - wheel
         - cython >=0.29,<3.1
         - numpy {{ numpy }}
-        - geos 3.9.1
+        - geos {{ geos }}
       run:
         - {{ pin_subpackage('basemap-data', min_pin='x.x.x', max_pin='x.x', exact=False) }}
         - python
