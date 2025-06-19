@@ -118,6 +118,8 @@ outputs:
       doc_url: https://matplotlib.org/basemap/
 
 extra:
+  skip-lints:
+    - missing_imports_or_run_test_py
   recipe-maintainers:
     - molinav
     - ocefpaf
