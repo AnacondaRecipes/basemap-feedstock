@@ -30,8 +30,8 @@ outputs:
       host:
         - python
         - pip
-        - setuptools >= 67.0,< 81.0
-        - wheel >=0.40,< 0.46
+        - setuptools >=67.0,<81.0
+        - wheel >=0.40,<0.46
         - cython >=3.0,<3.2
         - numpy {{ numpy }}
         - geos {{ geos }}
