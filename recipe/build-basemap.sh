@@ -9,16 +9,15 @@ export GEOS_DIR=$PREFIX
 case $PKG_NAME in
 
     basemap)
-        rm -f packages/basemap/pyproject.toml
-        $PYTHON -m pip install packages/basemap --no-deps --no-build-isolation -vv
+        $PYTHON -m pip install . --no-deps --no-build-isolation -vv
         ;;
 
     basemap-data)
-        $PYTHON -m pip install packages/basemap_data --no-deps --no-build-isolation -vv
+        $PYTHON -m pip install data/basemap_data --no-deps --no-build-isolation -vv
         ;;
 
     basemap-data-hires)
-        $PYTHON -m pip install packages/basemap_data_hires --no-deps --no-build-isolation -vv
+        $PYTHON -m pip install data/basemap_data_hires --no-deps --no-build-isolation -vv
         ;;
 
     *)
