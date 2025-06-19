@@ -46,13 +46,18 @@ outputs:
         - pyshp >=2.0,<2.4
         - geos # bounds through run_exports
     test:
+      source_files:
+        - test
+        - pyproject.toml
       imports:
         - mpl_toolkits.basemap
       requires:
         - pip
+        - pytest
       commands:
         - pip check
         - python -c "from mpl_toolkits.basemap import Basemap"
+        - pytest test
     about:
       home: https://matplotlib.org/basemap
       license: MIT
