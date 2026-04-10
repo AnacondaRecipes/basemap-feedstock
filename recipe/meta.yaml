@@ -1,5 +1,4 @@
 {% set version = "2.0.0" %}
-{% set build_number = "0" %}
 
 package:
   name: basemap-split
@@ -11,9 +10,11 @@ source:
   patches:
     # Update messages regarding installation of `basemap-data-hires`.
     - patches/install_hires_instructions.patch
+    # TODO: Remove this patch once new version with py314 support upstream available
+    - patches/setup_py-enable-py314.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<39]
 
 requirements:
@@ -58,7 +59,7 @@ outputs:
         - pip check
         - python -c "from mpl_toolkits.basemap import Basemap"
         # skipping test_arcgisimage_with_cyl_using_cache due to HTTP Error 503: Service Unavailable
-        - pytest test -k "not test_arcgisimage_with_cyl_using_cache"
+        - pytest -ra -vv test -k "not test_arcgisimage_with_cyl_using_cache"
     about:
       home: https://matplotlib.org/basemap
       license: MIT
