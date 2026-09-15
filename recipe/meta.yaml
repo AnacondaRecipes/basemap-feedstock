@@ -14,13 +14,9 @@ source:
     - patches/setup_py-enable-py314.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [py<39]
 
-requirements:
-  build:
-    - m2-patch  # [win]
-    - patch     # [not win]
 
 outputs:
   - name: basemap
@@ -28,6 +24,7 @@ outputs:
     script: bld-basemap.bat   # [win]
     requirements:
       build:
+        - {{ stdlib('c') }}
         - {{ compiler('c') }}
       host:
         - python
